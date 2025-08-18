@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Selera Nusantara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:#fafafa;
+      color:#faf4f0;
+      line-height:1.6;
+    }
+    header {
+      text-align:center;
+      padding:20px 20px;
+      background:#1d313c;
+      color:white;
+    }
+
+    header h1 {font-size:2.5em; margin-bottom:0px; color: #f6723a;}
+    header p {font-family: "Libre Franklin", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size:2em; margin:auto; color: #fadac1;}
+
+    .gallery-section {
+      padding: 40px 20px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .gallery img, .gallery video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover, .gallery video:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modal */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      left: 0;
+      top: 0;
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      background-color: rgba(0,0,0,0.9);
+      justify-content: center;
+      overflow: auto;
+    }
+
+    .modal-content {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    ul.navbar {
+      list-style:none;
+      display:flex;
+      justify-content:center;
+      background:#2e465e;
+      padding:15px;
+    }
+    ul.navbar li {list-style : none; margin:0 30px;}
+    ul.navbar a {
+      color:white; text-decoration:none; font-weight:bold; 
+      transition:color 0.3s; font-size: 22px; letter-spacing: 0.5px;
+    }
+    ul.navbar a:hover {color:#c43b39;}
+
+    /* Burger button */
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      color: #c43b39;
+      cursor: pointer;
+    }
+
+
+    @media (max-width: 768px) {
+      /* Sembunyikan navbar default */
+      ul.navbar {
+        display: none;
+        flex-direction: column;
+        position: static;
+        top: 60px;   /* sesuaikan dengan tinggi header */
+        right: 20px;
+        background: #2e465e;
+        border-radius: 8px;
+        width: 200px;
+        padding: 10px;
+        text-align: left;
+      }
+
+      /* Navbar tampil saat ada class .show */
+      ul.navbar.show {
+        display: flex;
+      }
+
+      /* Tampilkan tombol burger */
+      .menu-toggle {
+        display: block;
+        cursor: pointer;
+      }
+
+      /* Atur item biar enak dilihat */
+      ul.navbar li {
+        margin: 10px 0;
+      }
+    }
+
+    /* Dropdown Button */
+    .dropdown .dropbtn {
+      cursor: pointer;
+    }
+
+    /* Dropdown Content (hidden by default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 200px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .dropdown-content li {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown-content li a {
+      display: block;
+      padding: 12px 16px;
+      color: #9e3532;
+    }
+
+    .dropdown-content li a:hover {
+      background-color: #50a3ab; /* kuning mustard pastel */
+      color: #fff;
+    }
+
+    /* Show dropdown saat hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }    
+
+    footer {
+    text-align: center;
+    padding: 30px 20px;
+    background: #2e465e;
+    color: #fadac1;
+    margin-top: 40px;
+    }
+
+    footer h2 {
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: #f6723a; /* warna aksen biar menarik */
+    }
+
+    .social-media {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0 0;
+    padding: 0;
+    }
+
+    .social-media li {
+    display: inline-block;  
+    }
+
+    .social-media img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s, filter 0.3s;
+    }
+
+    .social-media img:hover {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+    }
+
+    /* Back to top */
+    #backToTop {
+      position:fixed;
+      bottom:30px; right:30px;
+      background:#d62828; color:white;
+      border:none; border-radius:50%;
+      padding:15px; cursor:pointer;
+      display:none;
+      box-shadow:0 4px 6px rgba(0,0,0,0.2);
+      transition:background 0.3s;
+    }
+    #backToTop:hover {background:#a71d2a;}
+  </style>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <!-- Navbar -->
+  <ul class="navbar">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="index.html#Tentang">Tentang Kami</a></li>
+    <!-- Dropdown Menu -->
+    <li class="dropdown">
+      <a href="#" class="dropbtn">Layanan Catering ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="Menu_paket/Nasi_Box.html">Nasi Box</a></li>
+        <li><a href="Menu_paket/Tumpeng.html">Paket Tumpeng</a></li>
+        <li><a href="Menu_paket/Hampers.html">Paket Hampers</a></li>
+        <li><a href="Menu_paket/Nasi_Bungkus.html">Nasi Bungkus</a></li>
+        <li><a href="Menu_paket/Lainnya.html">Paket Lainnya</a></li>
+      </ul>
+    </li>
+    <li><a href="Galeri.html">Galeri</a></li>
+    <li><a href="Kontak.html">Kontak</a></li>
+    <li><a href="https://wa.me/6289675647250">WhatsApp</a></li>
+  </ul>
+
+    <!-- Header -->
+  <header>
+    <p>Galeri Foto</p>
+    <h1>Selera Nusantara Catering</h1>
+  </header>
+
+  <section class="gallery-section">
+    <div class="gallery">
+      <img src="images/box/box1.jpeg" alt="Foto 1">
+      <img src="images/box/box2.jpeg" alt="Foto 2">
+      <img src="images/box/box3.jpeg" alt="Foto 3">
+      <img src="images/box/box4.jpeg" alt="Foto 4">
+      <img src="images/box/box5.jpeg" alt="Foto 5">
+      <img src="images/box/box6.jpeg" alt="Foto 6">
+      <img src="images/tumpeng/tumpeng1.jpeg" alt="Foto 1">
+      <img src="images/tumpeng/tumpeng2.jpeg" alt="Foto 2">
+      <img src="images/tumpeng/tumpeng3.jpeg" alt="Foto 3">
+      <img src="images/tumpeng/tumpeng4.jpeg" alt="Foto 1">
+      <img src="images/tumpeng/tumpeng5.jpeg" alt="Foto 2">
+      <img src="images/tumpeng/tumpeng6.jpeg" alt="Foto 3">
+      <img src="images/bungkus/bungkus1.jpeg" alt="">
+      <img src="images/bungkus/bungkus2.jpeg" alt="">
+      <img src="images/bungkus/bungkus3.jpeg" alt="">
+      <img src="images/bungkus/bungkus4.jpeg" alt="">
+      <img src="images/bungkus/bungkus5.jpeg" alt="">
+      <img src="images/bungkus/bungkus6.jpeg" alt="">
+      <img src="images/hampers/hampers1.jpeg" alt="">
+      <img src="images/hampers/hampers2.jpeg" alt="">
+      <img src="images/hampers/hampers3.jpeg" alt="">
+      <img src="images/bento/bento1.jpeg" alt="">
+      <img src="images/besek/besek1.jpeg" alt="">
+      <img src="images/dokumentasi/dok1.jpeg" alt="">
+      <img src="images/dokumentasi/dok2.jpeg" alt="">
+      <img src="images/dokumentasi/dok3.jpeg" alt="">
+      <img src="images/dokumentasi/dok4.jpeg" alt="">
+      <img src="images/dokumentasi/dok5.jpeg" alt="">
+      <img src="images/dokumentasi/dok6.jpeg" alt="">
+      
+      <!-- <video src="images/hida/a.mp4" alt="Foto 4"></video>
+      <video src="images/hida/c.mp4" alt="Foto 5"></video>
+      <video src="images/hida/k.mp4" alt="Foto 6"></video> -->
+    </div>
+  </section>
+
+  <!-- Modal untuk zoom -->
+  <div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <div id="modal-content"></div>
+  </div>
+
+  <script src="galeri.js"></script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-contact">
+      <h2 id="Kontak">Temukan Social Media Kami di</h2>
+      <ul class="social-media">
+        <li>
+          <a href="https://wa.me/6289675647250" target="_blank">
+           <img src="../images/logo-whatsapp.svg" alt="WhatsApp">
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/selera_nusantaracatering?" target="_blank">
+            <img src="../images/logo-instagram.svg" alt="Instagram">
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/iib.hisyam" target="_blank">
+            <img src="../images/logo-facebook.svg" alt="Facebook">
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/" target="_blank">
+            <img src="../images/logo-twitter.svg" alt="Twitter / X">
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <p>© 2025 Selera Nusantara Catering</p>
+  </footer>
+  <script src="galeri.js"></script>
+
+</body>
+</html>

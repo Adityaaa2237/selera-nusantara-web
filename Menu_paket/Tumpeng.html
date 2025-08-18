@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nasi Box</title>
+
+    <style>
+      * {margin:0; padding:0; box-sizing:border-box;}
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background:#faf4f0;
+        color:#333;
+        line-height:1.6;
+      }
+
+      ul.navbar {
+        list-style:none;
+        display:flex;
+        justify-content:center;
+        background:#2e465e;
+        padding:15px;
+      }
+      ul.navbar li {list-style : none; margin:0 30px;}
+      ul.navbar a {
+        color:white; text-decoration:none; font-weight:bold; 
+        transition:color 0.3s; font-size: 22px; letter-spacing: 1.5px;
+      }
+      ul.navbar a:hover {color:#c43b39;}
+
+    /* Burger button */
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      color: #c43b39;
+      cursor: pointer;
+    }
+
+
+      @media (max-width: 768px) {
+        /* Sembunyikan navbar default */
+        ul.navbar {
+          display: none;
+          flex-direction: column;
+          position: static;
+          top: 60px;   /* sesuaikan dengan tinggi header */
+          right: 20px;
+          background: #2e465e;
+          border-radius: 8px;
+          width: 200px;
+          padding: 10px;
+          text-align: left;
+        }
+
+        /* Navbar tampil saat ada class .show */
+        ul.navbar.show {
+          display: flex;
+        }
+
+        /* Tampilkan tombol burger */
+        .menu-toggle {
+          display: block;
+          cursor: pointer;
+        }
+
+        /* Atur item biar enak dilihat */
+        ul.navbar li {
+          margin: 10px 0;
+        }
+      }
+
+      /* Dropdown Button */
+      .dropdown .dropbtn {
+        cursor: pointer;
+      }
+
+      /* Dropdown Content (hidden by default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 200px;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+        z-index: 1000;
+      }
+
+      .dropdown-content li {
+        border-bottom: 1px solid #ddd;
+      }
+
+      .dropdown-content li a {
+        display: block;
+        padding: 12px 16px;
+        color: #9e3532;
+      }
+
+      .dropdown-content li a:hover {
+        background-color: #50a3ab; /* kuning mustard pastel */
+        color: #fff;
+      }
+
+      /* Show dropdown saat hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }    
+
+      /* Hero Section */
+      .menu-hero {
+        text-align: center;
+        padding: 50px 20px;
+        background: linear-gradient(135deg, #1d313c, #1d313c);
+        color: white;
+        border-radius: 0 0 20px 20px;
+        margin-bottom: 40px;
+      }
+
+      .menu-hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .menu-hero p {
+        font-size: 1.2em;
+        color: #f9f9f9;
+      }
+
+      /* Grid Menu */
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+      }
+
+      /* Card Menu */
+      .menu-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .menu-card:hover {
+        transform: translateY(-8px);
+      }
+
+      .menu-card img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+      }
+
+      .menu-card h3 {
+        font-size: 1.5em;
+        margin: 15px 0 5px;
+        color: #f6723a;
+      }
+
+      .menu-card p {
+        padding: 0 15px;
+        font-size: 1em;
+        color: #444;
+        margin-bottom: 10px;
+      }
+
+      .menu-card .price {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #FFB300;
+        margin-bottom: 15px;
+      }
+
+      .menu-card .order-btn {
+        background: #1d313c;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px auto 20px;
+        width: 80%;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+
+      .menu-card .order-btn:hover {
+        background: #2e465e;
+      }
+
+      /* Card Menu */
+      .menu-card1 {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .menu-card1:hover {
+        transform: translateY(-8px);
+      }
+
+      .menu-card1 img {
+        width: 100%;
+        height: 350px;
+        object-fit: contain;
+      }
+
+      .menu-card1 h3 {
+        font-size: 1.5em;
+        margin: 15px 0 5px;
+        color: #f6723a;
+      }
+
+      .menu-card1 p {
+        padding: 0 15px;
+        font-size: 1em;
+        color: #444;
+        margin-bottom: 10px;
+      }
+
+      .menu-card1 .price {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #FFB300;
+        margin-bottom: 15px;
+      }
+
+      .menu-card1 .order-btn {
+        background: #1d313c;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px auto 20px;
+        width: 80%;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+
+      .menu-card1 .order-btn:hover {
+        background: #2e465e;
+      }
+
+      .note {white-space: nowrap; padding: 0 0 0 13px}
+      .note1 {white-space: nowrap;}
+
+      footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: #2e465e;
+      color: #fadac1;
+      margin-top: 40px;
+      }
+
+      footer h2 {
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #f6723a; /* warna aksen biar menarik */
+      }
+
+      .social-media {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 15px 0 0;
+      padding: 0;
+      }
+
+      .social-media li {
+      display: inline-block;  
+      }
+
+      .social-media img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s, filter 0.3s;
+      }
+
+      .social-media img:hover {
+      transform: scale(1.15);
+      filter: brightness(1.3);
+      }
+    </style>
+
+</head>
+<body>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <!-- Navbar -->
+  <ul class="navbar">
+    <li><a href="../index.html">Beranda</a></li>
+    <li><a href="../index.html#Tentang">Tentang Kami</a></li>
+    <!-- Dropdown Menu -->
+    <li class="dropdown">
+      <a href="#" class="dropbtn">Layanan Catering ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="Nasi_Box.html">Nasi Box</a></li>
+        <li><a href="Tumpeng.html">Paket Tumpeng</a></li>
+        <li><a href="Hampers.html">Paket Hampers</a></li>
+        <li><a href="Nasi_Bungkus.html">Nasi Bungkus</a></li>
+        <li><a href="Lainnya.html">Paket Lainnya</a></li>
+      </ul>
+    </li>
+    <li><a href="../Galeri.html">Galeri</a></li>
+    <li><a href="../Galeri.html">Kontak</a></li>
+    <li><a href="https://wa.me/6289675647250">WhatsApp</a></li>
+  </ul>
+
+  <!-- Hero Section Menu -->
+  <section class="menu-hero">
+    <h1>Menu Paket Tumpeng</h1>
+    <p>Pilih menu terbaik sesuai kebutuhan acara Anda</p>
+  </section>
+
+  <!-- Grid Menu -->
+  <section class="menu-grid">
+    <!-- Kartu Menu 1 -->
+    <div class="menu-card">
+      <img src="../images/tumpeng/tumpeng1.jpeg" alt="Paket Tumpeng 1">
+      <h3>Paket Tumpeng 10 porsi</h3>
+      <p>Nasi kuning, ayam bakar, telur balado, sambal goreng kentang ati, kering tempe, mie goreng, acar kuning, dan sambal.</p>
+      <span class="price">Rp 400.000/box</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Nasi%20Tumpeng%20untuk%2010%20Porsi" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <!-- Kartu Menu 2 -->
+    <div class="menu-card1">
+      <img src="../images/tumpeng/tumpeng2.jpeg" alt="Paket Tumpeng 2">
+      <h3>Paket Tumpeng 20 porsi</h3>
+      <p>Nasi kuning, ayam bakar, telur balado, sambal goreng kentang ati, perkedel, kering tempe, mie goreng, telur suwir, dan sambal.</p>
+      <span class="price">Rp 800.000/paket</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Nasi%20Tumpeng%20untuk%2020%20Porsi" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <!-- Kartu Menu 3 -->
+    <div class="menu-card">
+      <img src="../images/tumpeng/tumpeng3.jpeg" alt="Paket Tumpeng 3">
+      <h3>Paket Tumpeng 15 porsi</h3>
+      <p>Nasi putih, ayam bakar, telur petis, urap-urap, udang krispi, orak arik tahu tempe, dan sambal.</p>
+      <span class="price">Rp 600.000/paket</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Nasi%20Tumpeng%20untuk%2015%20Porsi" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <!-- Kartu Menu 4 -->
+    <div class="menu-card">
+      <img src="../images/tumpeng/tumpeng4.jpeg" alt="Paket Tumpeng 4">
+      <h3>Paket Tumpeng 5 porsi</h3>
+      <p>Nasi kuning, ayam bakar, sambal goreng kentang ati, kering tempe, perkedel, mie goreng, dan telur suwir.</p>
+      <span class="price">Rp 200.000/paket</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Nasi%20Tumpeng%20untuk%205%20Porsi" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <!-- Kartu Menu 5 -->
+    <div class="menu-card">
+      <img src="../images/tumpeng/tumpeng5.jpeg" alt="Paket Tumpeng 5">
+      <h3>Paket Tumpeng 10 porsi</h3>
+      <p>Nasi putih, ayam bakar, urap-urap, udang krispi, telur balado, lodeh tewel, tahu tempe kuning, dan rempah .</p>
+      <span class="price">Rp 400.000/paket</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Nasi%20Tumpeng%20untuk%2010%20Porsi" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <!-- Kartu Menu 6 -->
+    <div class="menu-card">
+      <img src="../images/tumpeng/tumpeng6.jpeg" alt="Paket Tumpeng Mini">
+      <h3>Paket Tumpeng Mini</h3>
+      <p>Nasi kuning, ayam bakar, kering tempe, mie goreng, perkedel, telur suwir, dan sambal.</p>
+      <span class="price">Rp 25.000/paket</span>
+      <a href="https://wa.me/6289675647250?text=Halo%20saya%20ingin%20pesan%20Paket%20Tumpeng%20Mini" class="order-btn">Pesan via WhatsApp</a>
+    </div>
+
+    <div>
+      <h3>Note: </h3>
+      <h3 class="note1">- Pesanan dapat disesuaikan dengan</h3>
+      <h3 class="note">keinginan anda.</h3>
+      <h3 class="note1">- Untuk tambahan kerupuk, dikenakan</h3>
+      <h3 class="note">charge tambahan sebesar Rp 1000/pcs.</h3>
+    </div>
+
+  </section>
+
+</body>
+</html>
+
+
+    <!-- Footer -->
+  <footer>
+    <div class="footer-contact">
+      <h2 id="Kontak">Temukan Social Media Kami di</h2>
+      <ul class="social-media">
+        <li>
+          <a href="https://wa.me/6289675647250" target="_blank">
+           <img src="../images/logo-whatsapp.svg" alt="WhatsApp">
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/selera_nusantaracatering?" target="_blank">
+            <img src="../images/logo-instagram.svg" alt="Instagram">
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/iib.hisyam" target="_blank">
+            <img src="../images/logo-facebook.svg" alt="Facebook">
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/" target="_blank">
+            <img src="../images/logo-twitter.svg" alt="Twitter / X">
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <p>© 2025 Selera Nusantara Catering</p>
+  </footer>
+  <script src="../index.js"></script>
+
+</body>
+</html>
